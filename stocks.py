@@ -3,13 +3,14 @@ import urllib.request
 import time
 
 def doRequest(request):
-	result = urllib.request.urlopen(request)
+	result = urllib.request.urlopen(request).read()
 	soup = BeautifulSoup(request, from_encoding='utf8')
 	return soup
 
 def getRequest():
 	request = input('Website: ')
-	request = urllib.request.Request(request)
+	data = {}
+	#request = urllib.Request(request)
 	soup = doRequest(request)
 	return soup
 
@@ -17,7 +18,8 @@ def getRequest():
 
 def main():
 	while True:
-		getRequest()
+		soup = getRequest()
+		print(soup)
 		inputVar = input('To run again enter Y. Selection: ')
 		if inputVar != 'y' and inputVar != 'Y':
 			break
