@@ -13,32 +13,37 @@ def getRequest():
 	soup = 'http://www.allpennystocks.com/aps_us/hot_nasdaq_stocks.asp'
 	return soup
 
-def doMining(soup):
+def mineN(soup):
 	data = []
-	#
-	i = 0
 	soup = soup.findAll("td", {"width":"10%"})
+
 	for blarg in soup:
 		data.append(str(blarg.contents))
-		
-		#print(i)
-	#debug()
+	
 	counter = 0
 	for d in data:
-		print(i)
-		balls = data[counter]
-		#print(balls)
-		i = i + balls
+		stringData = data[counter]
+		stringData = stringData[2:-2]
+		stringData = stringData.replace(',','')
+		data[counter] = int(stringData)
 		counter = counter + 1
-	#print(data[0])
+		#print(stringData)
+	return data
+
+#def mineSD(soup):
+
+#def mineN(soup):
+
+#def mineXBar(soup):
+
+#def getPValue():
 
 def main():
 	while True:
 		request = getRequest()
 		soup = doRequest(request)
-		#debug()
-		doMining(soup)
-		#print(soup)
+		population = mineN(soup)
+		
 		inputVar = input('To run again enter Y. Selection: ')
 		if inputVar != 'y' and inputVar != 'Y':
 			break
