@@ -80,6 +80,11 @@ def mineSymbol(soup):
 		i += 1
 	return data
 
+def printAll(symbol, population, price):
+	i = 0
+	for s in symbol:
+		print(symbol[i] + '     ' + str(population[i]) + '     ' + str(price[i]))
+		i += 1
 
 def main():
 	while True:
@@ -88,6 +93,7 @@ def main():
 		population = minePopulation(soup)
 		symbol = mineSymbol(soup)
 		price = minePrice(soup)
+		printAll(symbol, population, price)
 		inputVar = input('To run again enter Y. Selection: ')
 		if inputVar != 'y' and inputVar != 'Y':
 			break
