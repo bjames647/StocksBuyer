@@ -13,13 +13,13 @@ def getRequest():
 	soup = 'http://www.allpennystocks.com/aps_us/hot_nasdaq_stocks.asp'
 	return soup
 
-def mineN(soup):
+def minePopulation(soup):
 	data = []
 	soup = soup.findAll("td", {"width":"10%"})
 
 	for blarg in soup:
 		data.append(str(blarg.contents))
-	
+
 	counter = 0
 	for d in data:
 		stringData = data[counter]
@@ -30,19 +30,47 @@ def mineN(soup):
 		#print(stringData)
 	return data
 
-#def mineSD(soup):
+#def minePrice(soup):
 
-#def mineN(soup):
+#def mineHigh(soup):
 
-#def mineXBar(soup):
+#def mineLow(soup):
 
-#def getPValue():
+#def mineOpen(soup):
+
+#def mineChange(soup):
+
+def mineSymbol(soup):
+	data = []
+	tempData = []
+	soup = soup.findAll("a")
+	
+
+	for blarg in soup:
+		tempData.append(str(blarg.contents))
+	i = 1
+	for c in tempData:
+		sliceTemp = tempData[i]
+		tempData[i] = sliceTemp[2:-2]
+		if len(tempData[i]) <= 4 and len(tempData[i]) > 0:
+			data.append(tempData[i])
+		i += 1
+
+	counter = 0
+	for d in data:
+		stringData = data[counter]
+		#stringData = stringData[2:-2]
+		counter = counter + 1
+		print(stringData)
+	return data
+
 
 def main():
 	while True:
 		request = getRequest()
 		soup = doRequest(request)
-		population = mineN(soup)
+		population = minePopulation(soup)
+		symbol = mineSymbol(soup)
 		
 		inputVar = input('To run again enter Y. Selection: ')
 		if inputVar != 'y' and inputVar != 'Y':
