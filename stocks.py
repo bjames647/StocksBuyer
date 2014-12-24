@@ -26,12 +26,37 @@ def minePopulation(soup):
 		stringData = stringData[2:-2]
 		stringData = stringData.replace(',','')
 		data[counter] = int(stringData)
-		counter = counter + 1
+		counter += 1
 		#print(stringData)
 	return data
 
-#def minePrice(soup):
+def minePrice(soup):
+	data = []
+	tempData = []
+	priceData = []
+	soup = soup.findAll("td", {"width":"9%"})
 
+	for blarg in soup:
+		tempData.append(str(blarg.contents))
+	
+	i = 0
+	for c in tempData:
+		sliceTemp = tempData[i]
+		tempData[i] = sliceTemp[2:-2]
+		if len(tempData[i]) <= 7 and len(tempData[i]) > 0:
+			data.append(float(tempData[i]))
+		i += 1
+	counter = 0
+	
+	for d in data:
+		if counter < len(data):
+			#print(counter)
+			priceData.append(data[counter])
+			counter += 4
+		else:
+			break	
+	#print(priceData)
+	return priceData
 #def mineHigh(soup):
 
 #def mineLow(soup):
@@ -44,24 +69,15 @@ def mineSymbol(soup):
 	data = []
 	tempData = []
 	soup = soup.findAll("a")
-	
-
 	for blarg in soup:
 		tempData.append(str(blarg.contents))
-	i = 1
+	i = 0
 	for c in tempData:
 		sliceTemp = tempData[i]
 		tempData[i] = sliceTemp[2:-2]
-		if len(tempData[i]) <= 4 and len(tempData[i]) > 0:
+		if len(tempData[i]) <= 4 and len(tempData[i]) > 0 and tempData[i].isupper():
 			data.append(tempData[i])
 		i += 1
-
-	counter = 0
-	for d in data:
-		stringData = data[counter]
-		#stringData = stringData[2:-2]
-		counter = counter + 1
-		print(stringData)
 	return data
 
 
@@ -71,7 +87,7 @@ def main():
 		soup = doRequest(request)
 		population = minePopulation(soup)
 		symbol = mineSymbol(soup)
-		
+		price = minePrice(soup)
 		inputVar = input('To run again enter Y. Selection: ')
 		if inputVar != 'y' and inputVar != 'Y':
 			break
