@@ -46,8 +46,8 @@ def minePrice(soup):
 		if len(tempData[i]) <= 7 and len(tempData[i]) > 0:
 			data.append(float(tempData[i]))
 		i += 1
+
 	counter = 0
-	
 	for d in data:
 		if counter < len(data):
 			#print(counter)
@@ -57,11 +57,83 @@ def minePrice(soup):
 			break	
 	#print(priceData)
 	return priceData
-#def mineHigh(soup):
+def mineHigh(soup):
+	data = []
+	tempData = []
+	highData = []
+	soup = soup.findAll("td", {"width":"9%"})
 
-#def mineLow(soup):
+	for blarg in soup:
+		tempData.append(str(blarg.contents))
+	
+	i = 0
+	for c in tempData:
+		sliceTemp = tempData[i]
+		tempData[i] = sliceTemp[2:-2]
+		if len(tempData[i]) <= 7 and len(tempData[i]) > 0:
+			data.append(float(tempData[i]))
+		i += 1
 
-#def mineOpen(soup):
+	counter = 1
+	for d in data:
+		if counter < len(data):
+			highData.append(data[counter])
+			counter += 4
+		else:
+			break	
+	return highData
+
+def mineLow(soup):
+	data = []
+	tempData = []
+	lowData = []
+	soup = soup.findAll("td", {"width":"9%"})
+
+	for blarg in soup:
+		tempData.append(str(blarg.contents))
+	
+	i = 0
+	for c in tempData:
+		sliceTemp = tempData[i]
+		tempData[i] = sliceTemp[2:-2]
+		if len(tempData[i]) <= 7 and len(tempData[i]) > 0:
+			data.append(float(tempData[i]))
+		i += 1
+
+	counter = 2
+	for d in data:
+		if counter < len(data):
+			lowData.append(data[counter])
+			counter += 4
+		else:
+			break	
+	return lowData
+
+def mineOpen(soup):
+	data = []
+	tempData = []
+	openData = []
+	soup = soup.findAll("td", {"width":"9%"})
+
+	for blarg in soup:
+		tempData.append(str(blarg.contents))
+	
+	i = 0
+	for c in tempData:
+		sliceTemp = tempData[i]
+		tempData[i] = sliceTemp[2:-2]
+		if len(tempData[i]) <= 7 and len(tempData[i]) > 0:
+			data.append(float(tempData[i]))
+		i += 1
+
+	counter = 3
+	for d in data:
+		if counter < len(data):
+			openData.append(data[counter])
+			counter += 4
+		else:
+			break	
+	return openData
 
 #def mineChange(soup):
 
@@ -80,10 +152,11 @@ def mineSymbol(soup):
 		i += 1
 	return data
 
-def printAll(symbol, population, price):
+def printAll(symbol, population, price, high, low, openM):
 	i = 0
 	for s in symbol:
-		print(symbol[i] + '     ' + str(population[i]) + '     ' + str(price[i]))
+		print(symbol[i] + '     ' + str(population[i]) + '     ' + str(price[i]) + '     ' + str(high[i])
+			+ '     ' + str(low[i]) + '     ' + str(openM[i]))
 		i += 1
 
 def main():
@@ -93,7 +166,10 @@ def main():
 		population = minePopulation(soup)
 		symbol = mineSymbol(soup)
 		price = minePrice(soup)
-		printAll(symbol, population, price)
+		high = mineHigh(soup)
+		low = mineLow(soup)
+		openM = mineOpen(soup)
+		printAll(symbol, population, price, high, low, openM)
 		inputVar = input('To run again enter Y. Selection: ')
 		if inputVar != 'y' and inputVar != 'Y':
 			break
